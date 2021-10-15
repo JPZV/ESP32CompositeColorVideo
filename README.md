@@ -1,24 +1,87 @@
-# ESP32CompositeVideo
+# ESP32CompositeColorVideo
 
-This is a simple project showing how to generate a composite video signal using the ESP32
+This repository is a fork of Bitluni's [ESP32CompositeVideo] that adds color in NTSC and PAL
+by borrowing code from [ESP_8_BIT].
 
-Image2Header converts image files to c++ headers
-StlConverter2 converts image files to c++ headers
+At first, I tried Bitluni's [ESP32SpaceShooter] that implements color in PAL. However, my
+monitor had a difficult time keeping sync. After some digging, I came across rossumur's
+[ESP_8_BIT] which purported to use the *Audio Phase Locked Loop* capability of the ESP32
+to generate a better color signal. Not only that, but it managed to do so for both PAL
+*and* NTSC.
 
-CompositeVideo shows how to render a 3D mesh and display it on composite.
-CompositeVideoSimple shows the simple graphics functions except for 3D currently avaialable.
+Intrigued, I set out to see if I could adapt this code for my own uses. But first I had to
+free the NTSC/PAL code from the ESP_8_BIT project. The code was written very specifically for
+several different emulators, but I was able to tease out the bits for the Atari which would
+give me a fixed 336 by 240 pixels of resolution and a 256 color pallete.
 
-You need an ESP32 module connect the pin 25 to the inner pin of the yellow AV connector and ground to the outer.
+I found the [relevant code](https://github.com/rossumur/esp_8_bit/blob/master/src/video_out.h)
+and unsucessfully tried to understand how it worked (I assume magic). Nonetheless, I was able
+to grasp just enough to make it run standalone without the emulators.
 
-Watch the project video on YouTube:
-https://youtu.be/5t1_XNc3vNw
+Having done this, I needed a way to draw to the framebuffer. Fortuitously, I found that the
+framebuffer was compatible with the graphics library Bitluni had already developed.
 
-and check the project page for updates:
-http://bitluni.net/esp32-composite-video
+The only difference is that the `setColor()` function, rather than taking a gray level, will
+select a color from the [Atari color palette]. This palette is quite convenient because it has
+256 colors, which when expressed in hexdecimal, has the first digit indicate one of 16
+different hues while the second digit indicates one of 16 possible values of luminance.
 
-# License
+# Examples in this library
+
+The first two examples are the same as bitluni's originals; they run in B&W. The
+CompositeColorVideo example is new.
+
+- CompositeVideo shows how to render a 3D mesh and display it on composite in B&W.
+- CompositeVideoSimple shows the simple graphics functions except for 3D currently available.
+- CompositeColorVide shows how to display color in either PAL or NTSC.
+
+You need an ESP32 module connect the pin 25 to the inner pin of the yellow AV connector
+and ground to the outer.
+
+# License (marciot)
+
+Copyright (c) 2021, Marcio Teixeira
+
+Permission to use, copy, modify, and/or distribute this software for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR
+BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+
+# License (esp32-8-bit)
+
+Copyright (c) 2020, Peter Barrett
+
+Permission to use, copy, modify, and/or distribute this software for
+any purpose with or without fee is hereby granted, provided that the
+above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR
+BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+
+# License (bitluni)
 
 CC0. Do whatever you like with the code but I will be thankfull 
 if you attribute me. Keep the spirit alive :-)
 
 - bitluni
+
+# References:
+
+[ESP32CompositeVideo]: https://github.com/marciot/ESP32CompositeVideo
+[ESP32SpaceShooter]: https://github.com/bitluni/ESP32SpaceShooter
+[ESP_8_BIT]: https://github.com/rossumur/esp_8_bit
+[Atari color palette]: http://7800.8bitdev.org/index.php/Atari_7800_Color_Documentation
