@@ -32,9 +32,6 @@ are:
 - CompositeVideoSimple: renders text, a few lines and an image in color.
 - CompositeVideo: renders a 3D mesh and display it in color.
 
-You need an ESP32 module connect the pin 25 to the inner pin of the yellow AV connector
-and ground to the outer ring.
-
 ## Wiring for an [Adafruit HUZZAH32]:
 
 ![Dali Clock Wiring][wiring]
