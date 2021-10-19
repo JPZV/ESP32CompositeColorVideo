@@ -35,12 +35,12 @@ are:
 You need an ESP32 module connect the pin 25 to the inner pin of the yellow AV connector
 and ground to the outer ring.
 
-# Drawing colors ([ESP32CompositeVideo] compatibility mode):
+## Drawing colors (compatibility mode):
 
-To maintain compatibility with Bitluni's original library, the drawing routines all accept
-a value from 0 through 54. In the original library, these values specified one of 55
-different shades of gray. This version of the library can only show 16 levels of brightness,
-but in this mode the original range is preserved for compatibility.
+To maintain compatibility with Bitluni's original [ESP32CompositeVideo] library, the drawing
+routines all accept a value from 0 through 54. In the original library, these values specified
+one of 55 different shades of gray. This version of the library can only show 16 levels of
+brightness, but in this mode the original range is preserved for compatibility.
 
 Although it limits the number of brightness levels, this library makes up for it by allowing
 the selection one of sixteen different hues, which are then combined with the brightness
@@ -53,7 +53,7 @@ graphics.fillRect(x,y,w,h,brightness); // Range: 0-54
 
 Hence, 256 total colors are available: 16 different shades of 16 different hues.
 
-# Drawing colors (Atari mode):
+## Drawing colors (Atari mode):
 
 Alternatively, you can choose to use Atari colors values by declaring `USE_ATARI_COLORS`
 before you include "CompositeGraphics.h"
@@ -76,7 +76,7 @@ available. This mode will also be more performant. Example:
 graphics.fillRect(x,y,w,h,color); // Range: 0x00 - 0xFF
 ```
 
-# License (marciot)
+## License (marciot)
 
 ```
 Copyright (c) 2021, Marcio Teixeira
