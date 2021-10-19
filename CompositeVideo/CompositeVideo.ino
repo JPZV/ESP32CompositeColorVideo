@@ -10,7 +10,7 @@
 #include "CompositeGraphics.h"
 #include "Mesh.h"
 #include "Image.h"
-#include "CompositeOutput.h"
+#include "CompositeColorOutput.h"
 
 #include "skull.h"
 #include "venus.h"
@@ -20,17 +20,10 @@
 
 #include "font6x8.h"
 
-//PAL MAX, half: 324x268 full: 648x536
-//NTSC MAX, half: 324x224 full: 648x448
-const int XRES = 320;
-const int YRES = 200;
-
-//Graphics using the defined resolution for the backbuffer and fixed buffer for triangles
-CompositeGraphics graphics(XRES, YRES, 1337);
-
-//Composite output using the desired mode (PAL/NTSC) and twice the resolution. 
-//It will center the displayed image automatically
-CompositeOutput composite(CompositeOutput::NTSC, XRES * 2, YRES * 2);
+//Graphics using the fixed resolution for the color graphics
+CompositeGraphics graphics(CompositeColorOutput::XRES, CompositeColorOutput::YRES, 1337);
+//Composite output using the desired mode (PAL/NTSC) and a fixed resolution
+CompositeColorOutput composite(CompositeColorOutput::NTSC);
 
 #if defined(VENUS)
 Mesh<CompositeGraphics> model(venus::vertexCount, venus::vertices, 0, 0, venus::triangleCount, venus::triangles, venus::triangleNormals);
@@ -60,19 +53,6 @@ void setup()
   graphics.init();
   //select font
   graphics.setFont(font);
-
-  //running composite output pinned to first core
-  xTaskCreatePinnedToCore(compositeCore, "compositeCoreTask", 1024, NULL, 1, NULL, 0);
-  //rendering the actual graphics in the main loop is done on second core by default
-}
-
-void compositeCore(void *data)
-{
-  while (true)
-  {
-    //just send the graphics frontbuffer whithout any interruption 
-    composite.sendFrameHalfResolution(&graphics.frame);
-  }
 }
 
 void drawSkull()
@@ -133,7 +113,12 @@ void draw()
   int fps = 1000 / (t - lastMillis);
   lastMillis = t;
 
+  graphics.setHue(0);
   graphics.begin(54);
+  
+  // Cycle the hue used for drawing
+  graphics.setHue(millis()/1000);
+  
   #if defined(LOGO)
     drawLogo();
   #elif defined(VENUS)
@@ -143,6 +128,8 @@ void draw()
   #elif defined(SKULL)
     drawSkull();
   #endif
+  
+  Color::setHue(0);
   graphics.setTextColor(5);
   graphics.setCursor(30, 5);
   graphics.print("free memory: ");
@@ -157,4 +144,5 @@ void draw()
 void loop()
 {
   draw();
+  composite.sendFrameHalfResolution(&graphics.frame);
 }

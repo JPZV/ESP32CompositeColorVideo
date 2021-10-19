@@ -3,26 +3,20 @@
 
 #include "CompositeGraphics.h"
 #include "Image.h"
-#include "CompositeOutput.h"
+#include "CompositeColorOutput.h"
 
 #include "luni.h"
 #include "font6x8.h"
 
-//PAL MAX, half: 324x268 full: 648x536
-//NTSC MAX, half: 324x224 full: 648x448
-const int XRES = 320;
-const int YRES = 200;
-
-//Graphics using the defined resolution for the backbuffer
-CompositeGraphics graphics(XRES, YRES);
-//Composite output using the desired mode (PAL/NTSC) and twice the resolution. 
-//It will center the displayed image automatically
-CompositeOutput composite(CompositeOutput::NTSC, XRES * 2, YRES * 2);
+//Graphics using the fixed resolution for the color graphics
+CompositeGraphics graphics(CompositeColorOutput::XRES, CompositeColorOutput::YRES);
+//Composite output using the desired mode (PAL/NTSC) and a fixed resolution
+CompositeColorOutput composite(CompositeColorOutput::NTSC);
 
 //image and font from the included headers created by the converter. Each iamge uses its own namespace.
 Image<CompositeGraphics> luni0(luni::xres, luni::yres, luni::pixels);
 
-//font is based on ASCII starting from char 32 (space), width end height of the monospace characters. 
+//font is based on ASCII starting from char 32 (space), width end height of the monospace characters.
 //All characters are staored in an image vertically. Value 0 is background.
 Font<CompositeGraphics> font(6, 8, font6x8::pixels);
 
@@ -41,28 +35,19 @@ void setup()
   graphics.init();
   //select font
   graphics.setFont(font);
-
-  //running composite output pinned to first core
-  xTaskCreatePinnedToCore(compositeCore, "compositeCoreTask", 1024, NULL, 1, NULL, 0);
-  //rendering the actual graphics in the main loop is done on the second core by default
-}
-
-void compositeCore(void *data)
-{
-  while (true)
-  {
-    //just send the graphics frontbuffer whithout any interruption 
-    composite.sendFrameHalfResolution(&graphics.frame);
-  }
 }
 
 void draw()
 {
   //clearing background and starting to draw
+  graphics.setHue(0);
   graphics.begin(0);
   //drawing an image
   luni0.draw(graphics, 200, 10);
 
+  // Cycle the hue used for drawing
+  graphics.setHue(millis()/1000);
+  
   //drawing a frame
   graphics.fillRect(27, 18, 160, 30, 10);
   graphics.rect(27, 18, 160, 30, 20);
@@ -77,7 +62,7 @@ void draw()
   graphics.print((int)heap_caps_get_free_size(MALLOC_CAP_DEFAULT));
   graphics.print("\nrendered frame: ");
   static int frame = 0;
-  graphics.print(frame, 10, 4); //base 10, 6 characters 
+  graphics.print(frame, 10, 4); //base 10, 6 characters
   graphics.print("\n        in hex: ");
   graphics.print(frame, 16, 4);
   frame++;
@@ -88,10 +73,10 @@ void draw()
     graphics.line(50, i + 60, 50 + i, 160, i / 2);
     graphics.line(150, 160 - i, 50 + i, 60, i / 2);
   }
-  
+
   //draw single pixel
   graphics.dot(20, 190, 10);
-  
+
   //finished drawing, swap back and front buffer to display it
   graphics.end();
 }
@@ -99,4 +84,5 @@ void draw()
 void loop()
 {
   draw();
+  composite.sendFrameHalfResolution(&graphics.frame);
 }

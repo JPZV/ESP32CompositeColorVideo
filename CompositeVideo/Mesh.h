@@ -34,7 +34,7 @@ class Mesh
     delete(tvertices);
   }
 
-  void drawTriangles(Graphics &g, char color)
+  void drawTriangles(Graphics &g, Color color)
   {
     const float scaleN = 1.0f / 127.0f;
     
@@ -49,7 +49,7 @@ class Mesh
       int dy2 = v2[1] - v0[1];
       if(dx1 * dy2 - dx2 * dy1 < 0)
       {
-        char c;
+        Color c;
         if(tTriNormals)
         {
           // with L = { 0, 0, -1 }
@@ -65,7 +65,7 @@ class Mesh
           const float L[3] = { 0, 0, -1 }; 
           
           const float NdotL = max(0.0f, nx * L[0] + ny * L[1] + nz * L[2]);
-          c = (char) (color * NdotL + 0.5);
+          c = color * NdotL;
         }
         else
           c = i % 40;
@@ -74,7 +74,7 @@ class Mesh
     }
   }
 
-  void drawEdges(Graphics &g, char color)
+  void drawEdges(Graphics &g, Color color)
   {
     for(int i = 0; i < edgeCount; i++)
     {
@@ -82,7 +82,7 @@ class Mesh
     }
   }
     
-  void drawVertices(Graphics &g, char color)
+  void drawVertices(Graphics &g, Color color)
   {
     for(int i = 0; i < vertexCount; i++)
       g.dot(tvertices[i][0], tvertices[i][1], color);

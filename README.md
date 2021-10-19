@@ -1,3 +1,5 @@
+![Venus de Milo Animation][animation]
+
 # ESP32CompositeColorVideo
 
 This repository is a fork of Bitluni's [ESP32CompositeVideo] that adds color in NTSC and PAL
@@ -22,26 +24,57 @@ to grasp just enough to make it run standalone without the emulators.
 Having done this, I needed a way to draw to the framebuffer. Fortuitously, I found that the
 framebuffer was compatible with the graphics library Bitluni had already developed.
 
-The only difference is that the `setColor()` function, rather than taking a gray level, will
-select a color from the [Atari color palette]. This palette is quite convenient because it has
-256 colors, which when expressed in hexdecimal, has the first nibble indicate one of 16
-different hues while the second nibble indicates one of 16 possible values of luminance.
-
 # Examples in this library
 
-The first two examples are the same as bitluni's originals; they run in B&W. The
-CompositeColorVideo example is new.
+The two examples from bitluni's original library have been modified to run in color. They
+are:
 
-- CompositeVideo shows how to render a 3D mesh and display it on composite in B&W.
-- CompositeVideoSimple shows the simple graphics functions except for 3D currently available.
-- CompositeColorVideo shows how to display color in either PAL or NTSC.
+- CompositeVideoSimple: renders text, a few lines and an image in color.
+- CompositeVideo: renders a 3D mesh and display it in color.
 
 You need an ESP32 module connect the pin 25 to the inner pin of the yellow AV connector
-and ground to the outer.
+and ground to the outer ring.
 
-Please note that because the example is expecting grayscale values, and `setColor()` is now
-setting colors instead, it looks pretty bad. Maybe sometime I will try to modify it to look
-correct.
+# Drawing colors ([ESP32CompositeVideo] compatibility mode):
+
+To maintain compatibility with Bitluni's original library, the drawing routines all accept
+a value from 0 through 54. In the original library, these values specified one of 55
+different shades of gray. This version of the library can only show 16 levels of brightness,
+but in this mode the original range is preserved for compatibility.
+
+Although it limits the number of brightness levels, this library makes up for it by allowing
+the selection one of sixteen different hues, which are then combined with the brightness
+values for all subsequent drawing operations. Example:
+
+```
+graphics.setHue(hue);                  // Range: 0-15 (0 means B&W)
+graphics.fillRect(x,y,w,h,brightness); // Range: 0-54
+```
+
+Hence, 256 total colors are available: 16 different shades of 16 different hues.
+
+# Drawing colors (Atari mode):
+
+Alternatively, you can choose to use Atari colors values by declaring `USE_ATARI_COLORS`
+before you include "CompositeGraphics.h"
+
+When this mode is enabled, the color argument to the various functions will take a color
+from the [Atari color palette]. This palette is quite convenient because when expressed
+in hexdecimal, the first nibble indicates one of 16 different hues while the second nibble
+indicates one of 16 possible values of brightness.
+
+In this mode, all the 256 colors can be expressed directly and `graphics.setHue()` is not
+available. This mode will also be more performant. Example:
+
+
+```
+#define USE_ATARI_COLORS
+#include "CompositeGraphics.h"
+
+...
+
+graphics.fillRect(x,y,w,h,color); // Range: 0x00 - 0xFF
+```
 
 # License (marciot)
 
@@ -95,3 +128,4 @@ if you attribute me. Keep the spirit alive :-)
 [ESP_8_BIT]: https://github.com/rossumur/esp_8_bit
 [Atari color palette]: http://7800.8bitdev.org/index.php/Atari_7800_Color_Documentation
 [esp32-dali-clock]: https://github.com/marciot/esp32-dali-clock
+[animation]: https://github.com/marciot/ESP32CompositeColorVideo/raw/master/artwork/VenusDeMilo.gif "Venus de Milo Animation"
