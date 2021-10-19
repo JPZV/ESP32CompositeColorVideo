@@ -24,7 +24,7 @@ to grasp just enough to make it run standalone without the emulators.
 Having done this, I needed a way to draw to the framebuffer. Fortuitously, I found that the
 framebuffer was compatible with the graphics library Bitluni had already developed.
 
-# Examples in this library
+## Examples in this library
 
 The two examples from bitluni's original library have been modified to run in color. They
 are:
@@ -34,6 +34,14 @@ are:
 
 You need an ESP32 module connect the pin 25 to the inner pin of the yellow AV connector
 and ground to the outer ring.
+
+## Wiring for an [Adafruit HUZZAH32]:
+
+![Dali Clock Wiring][wiring]
+
+1. Use an alligator clip to connect the pin labeled "GND" on the [Adafruit HUZZAH32] to the outside barrel of the RCA plug
+2. Use an alligator clip to connect the pin labeled "A1/DAC1" on the [Adafruit HUZZAH32] to the central pin of the RCA plug
+3. Connect the other end of the RCA cable to the yellow jack on your TV or monitor
 
 ## Drawing colors (compatibility mode):
 
@@ -128,4 +136,6 @@ if you attribute me. Keep the spirit alive :-)
 [ESP_8_BIT]: https://github.com/rossumur/esp_8_bit
 [Atari color palette]: http://7800.8bitdev.org/index.php/Atari_7800_Color_Documentation
 [esp32-dali-clock]: https://github.com/marciot/esp32-dali-clock
+[wiring]: https://github.com/marciot/esp32-dali-clock/raw/master/artwork/wiring.jpg "Dali Clock Wiring"
+[Adafruit HUZZAH32]: https://www.adafruit.com/product/3405
 [animation]: https://github.com/marciot/ESP32CompositeColorVideo/raw/master/artwork/VenusDeMilo.gif "Venus de Milo Animation"
