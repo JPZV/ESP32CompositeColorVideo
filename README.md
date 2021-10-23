@@ -133,6 +133,6 @@ if you attribute me. Keep the spirit alive :-)
 [ESP_8_BIT]: https://github.com/rossumur/esp_8_bit
 [Atari color palette]: http://7800.8bitdev.org/index.php/Atari_7800_Color_Documentation
 [esp32-dali-clock]: https://github.com/marciot/esp32-dali-clock
-[wiring]: https://github.com/marciot/esp32-dali-clock/raw/master/artwork/wiring.jpg "Dali Clock Wiring"
+[wiring]: https://github.com/marciot/ESP32CompositeColorVideo/raw/master/extras/Pictures/wiring.jpg "AdaFruit HUZZAH32 Wiring"
 [Adafruit HUZZAH32]: https://www.adafruit.com/product/3405
-[animation]: https://github.com/marciot/ESP32CompositeColorVideo/raw/master/artwork/VenusDeMilo.gif "Venus de Milo Animation"
+[animation]: https://github.com/marciot/ESP32CompositeColorVideo/raw/master/extras/Pictures/VenusDeMilo.gif "Venus de Milo Animation"
