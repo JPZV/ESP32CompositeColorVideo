@@ -100,7 +100,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 ```
 
-# License (esp32-8-bit)
+## License (esp32-8-bit)
 
 ```
 Copyright (c) 2020, Peter Barrett
@@ -119,7 +119,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 ```
 
-# License (bitluni)
+## License (bitluni)
 
 ```
 CC0. Do whatever you like with the code but I will be thankfull 
