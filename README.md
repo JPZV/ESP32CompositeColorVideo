@@ -3,9 +3,14 @@
 # ESP32CompositeColorVideo
 
 This repository is a fork of Bitluni's [ESP32CompositeVideo] that adds color in NTSC and PAL
-by borrowing code from [ESP_8_BIT]. See [esp32-dali-clock] for an example of what this
-modified code can do.
+by borrowing code from [ESP_8_BIT]. It also rearranges the code and examples into an Arduino
+library for ease of use.
 
+See [esp32-dali-clock] for an example of what this modified code can do.
+
+<details>
+<summary>More details</summary></br>
+  
 At first, I tried Bitluni's [ESP32SpaceShooter] that implements color in PAL. However, my
 monitor had a difficult time keeping sync. After some digging, I came across rossumur's
 [ESP_8_BIT] which purported to use the *Audio Phase Locked Loop* capability of the ESP32
@@ -24,15 +29,20 @@ to grasp just enough to make it run standalone without the emulators.
 Having done this, I needed a way to draw to the framebuffer. Fortuitously, I found that the
 framebuffer was compatible with the graphics library Bitluni had already developed.
 
+</details>
+
 ## Examples in this library
 
 The two examples from bitluni's original library have been modified to run in color. They
 are:
 
-- CompositeVideoSimple: renders text, a few lines and an image in color.
-- CompositeVideo: renders a 3D mesh and display it in color.
+- **CompositeVideoSimple**: renders text, a few lines and an image in color.
+- **CompositeVideo**: renders a 3D mesh and display it in color.
 
 ## Wiring for an [Adafruit HUZZAH32]:
+
+<details>
+<summary>More details</summary></br>
 
 ![Dali Clock Wiring][wiring]
 
@@ -40,7 +50,21 @@ are:
 2. Use an alligator clip to connect the pin labeled "A1/DAC1" on the [Adafruit HUZZAH32] to the central pin of the RCA plug
 3. Connect the other end of the RCA cable to the yellow jack on your TV or monitor
 
-## Drawing colors (compatibility mode):
+</details>
+
+## Bitluni's Blog Posts
+
+Bitluni has written extensively on his projects, I am including links to the relevant blog posts here.
+
+- https://bitluni.net/esp32-composite-video
+- https://bitluni.net/esp32-color-pal
+
+## Documentation for Developers
+
+<details>
+<summary>More details</summary></br>
+
+### Drawing colors (compatibility mode):
 
 To maintain compatibility with Bitluni's original [ESP32CompositeVideo] library, the drawing
 routines all accept a value from 0 through 54. In the original library, these values specified
@@ -58,7 +82,7 @@ graphics.fillRect(x,y,w,h,brightness); // Range: 0-54
 
 Hence, 256 total colors are available: 16 different shades of 16 different hues.
 
-## Drawing colors (Atari mode):
+### Drawing colors (Atari mode):
 
 Alternatively, you can choose to use Atari colors values by declaring `USE_ATARI_COLORS`
 before you include "CompositeGraphics.h"
@@ -81,7 +105,14 @@ available. This mode will also be more performant. Example:
 graphics.fillRect(x,y,w,h,color); // Range: 0x00 - 0xFF
 ```
 
-## License (marciot)
+</details>
+    
+## Licenses
+
+<details>
+<summary>Click to expand</summary>
+    
+### ESP32CompositeColorVideo (marciot)
 
 ```
 Copyright (c) 2021, Marcio Teixeira
@@ -100,7 +131,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 ```
 
-## License (esp32-8-bit)
+### esp32-8-bit (rossumur, Peter Barrett)
 
 ```
 Copyright (c) 2020, Peter Barrett
@@ -119,7 +150,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 ```
 
-## License (bitluni)
+### ESP32CompositeVideo (Bitluni)
 
 ```
 CC0. Do whatever you like with the code but I will be thankfull 
@@ -127,6 +158,8 @@ if you attribute me. Keep the spirit alive :-)
 
 - bitluni
 ```
+    
+</details>
 
 [ESP32CompositeVideo]: https://github.com/marciot/ESP32CompositeVideo
 [ESP32SpaceShooter]: https://github.com/bitluni/ESP32SpaceShooter
