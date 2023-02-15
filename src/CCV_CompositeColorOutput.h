@@ -1,4 +1,4 @@
-#include "video_out.h"
+#include "CCV_video_out.h"
 
 class CompositeColorOutput {
     public:

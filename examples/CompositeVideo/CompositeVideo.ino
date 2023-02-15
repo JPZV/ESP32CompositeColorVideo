@@ -6,11 +6,11 @@
 #define VENUS
 //#define DRAGON
 
-#include "Matrix.h"
-#include "CompositeGraphics.h"
-#include "Mesh.h"
-#include "Image.h"
-#include "CompositeColorOutput.h"
+#include "CCV_Matrix.h"
+#include "CCV_CompositeGraphics.h"
+#include "CCV_Mesh.h"
+#include "CCV_Image.h"
+#include "CCV_CompositeColorOutput.h"
 
 #include "skull.h"
 #include "venus.h"
@@ -18,7 +18,7 @@
 #include "dragon.h"
 #include "lablogo.h"
 
-#include "font6x8.h"
+#include "CCV_font6x8.h"
 
 //Graphics using the fixed resolution for the color graphics
 CompositeGraphics graphics(CompositeColorOutput::XRES, CompositeColorOutput::YRES, 1337);

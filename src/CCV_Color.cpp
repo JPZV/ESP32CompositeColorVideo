@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "Color.h"
+#include "CCV_Color.h"
 
 char Color::hue = 0x00;
 

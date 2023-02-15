@@ -1,7 +1,7 @@
 #pragma once
-#include "Color.h"
-#include "Font.h"
-#include "TriangleTree.h"
+#include "CCV_Color.h"
+#include "CCV_Font.h"
+#include "CCV_TriangleTree.h"
 
 class CompositeGraphics
 { 

@@ -1,12 +1,12 @@
 //code by bitluni (send me a high five if you like the code)
 #include "esp_pm.h"
 
-#include "CompositeGraphics.h"
-#include "Image.h"
-#include "CompositeColorOutput.h"
+#include "CCV_CompositeGraphics.h"
+#include "CCV_Image.h"
+#include "CCV_CompositeColorOutput.h"
 
 #include "luni.h"
-#include "font6x8.h"
+#include "CCV_font6x8.h"
 
 //Graphics using the fixed resolution for the color graphics
 CompositeGraphics graphics(CompositeColorOutput::XRES, CompositeColorOutput::YRES);
